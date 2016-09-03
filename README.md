@@ -1,20 +1,99 @@
-1. API: /api/message
+# ThothNodeJS
+ThothNodeJS provides RESTful services of Thoth. This is the project of a Conversational Agent, the Robot Brain of GBS Innovation Center
 
-1.1 URL：
-http://[Domain]/api/message
-[Sample] http://helloconversation.mybluemix.net/api/message
+# API
+## Conversation
+POST: `/api/message`
 
-1.2	Pattern：
-json
+Content-Type: `application/json`
 
-1.3	HTTP Request Method：
-POST
+### HTTP Request body: 
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Note</th>
+    </tr>
+    <tr>
+        <td>input</td>
+        <td>object</td>
+        <td>required</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>context</td>
+        <td>object</td>
+        <td></td>
+        <td>The context is generated from Watson Conversaion</td>
+    </tr>
+</table>
 
-1.4 Input Param:
-1.4.1  Param Name：input     Necessary or not：Yes
-1.4.2  Param Name：context     Necessary or not：No
+#### `input` scheme: 
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>string</td>
+        <td>required</td>
+    </tr>
+</table>
 
-[Sample]
+#### `context` scheme: 
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>conversation_id</td>
+        <td>string</td>
+        <td>required</td>
+    </tr>
+    <tr>
+        <td>system</td>
+        <td>object</td>
+        <td>required</td>
+    </tr>
+    <tr>
+        <td>defaultCounter</td>
+        <td>integer</td>
+        <td>required</td>
+    </tr>
+</table>
+
+###### `system` scheme: 
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>dialog_stack</td>
+        <td>array&lt;string&gt;</td>
+        <td>required</td>
+    </tr>
+    <tr>
+        <td>dialog_turn_counter</td>
+        <td>integer</td>
+        <td>required</td>
+    </tr>
+    <tr>
+        <td>dialog_request_counter</td>
+        <td>integer</td>
+        <td>required</td>
+    </tr>
+</table>
+
+
+## Sample of HTTP request body: 
+```JSON
 {
   "input": {
     "text": "hello"
@@ -31,18 +110,13 @@ POST
     "defaultCounter": 0
   }
 }
+```
 
-2. API: /api/graphic
+## Graphic
+GET: `/api/graphic`
 
-2.1 URL
-http://[Domain]/api/graphic
-[Sample] http://helloconversation.mybluemix.net/api/graphic
+Content-Type: `application/json`
 
-2.2	pattern
-json
 
-2.3	HTTP Request Method
-GET
-
-2.4 Input Param:
-No.
+#License
+Copyright 2016 GCG GBS CTO Office under [the Apache 2.0 license](LICENSE).
