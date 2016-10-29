@@ -88,7 +88,62 @@ var messageControl = {
             }
             return res.json( updateMessage( payload, data ) );
         } );
+    },
+
+    messageWithStringParam: function messageWithStringParam(inputParam) {
+        var workspace = process.env.WORKSPACE_ID || '<workspace-id>';
+        if ( !workspace || workspace === '<workspace-id>' ) {
+            return JSON.stringify( {
+                'output': {
+                    'text': 'The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' +
+                    '<a href="https://github.com/watson-developer-cloud/conversation-simple">README</a> documentation on how to set this variable. <br>' +
+                    'Once a workspace has been defined the intents may be imported from ' +
+                    '<a href="https://github.com/watson-developer-cloud/conversation-simple/blob/master/training/car_workspace.json">here</a> in order to get a working application.'
+                }
+            } );
+        }
+        var payload = {
+            workspace_id: workspace,
+            context: {},
+            input: inputParam
+        };
+
+        // Send the input to the conversation service
+        conversation.message( payload, function(err, data) {
+            if ( err ) {
+                return JSON.stringify( err);
+            }
+            return JSON.stringify( data );
+        } );
+    },
+
+    getMessageOutputText: function getMessageOutputText(inputText) {
+        var workspace = process.env.WORKSPACE_ID || '<workspace-id>';
+        if ( !workspace || workspace === '<workspace-id>' ) {
+            return res.json( {
+                'output': {
+                    'text': 'The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' +
+                    '<a href="https://github.com/watson-developer-cloud/conversation-simple">README</a> documentation on how to set this variable. <br>' +
+                    'Once a workspace has been defined the intents may be imported from ' +
+                    '<a href="https://github.com/watson-developer-cloud/conversation-simple/blob/master/training/car_workspace.json">here</a> in order to get a working application.'
+                }
+            } );
+        }
+        var payload = {
+            workspace_id: workspace,
+            context: {},
+            input: inputText
+        };
+        
+        // Send the input to the conversation service
+        conversation.message( payload, function(err, data) {
+            if ( err ) {
+                return res.status( err.code || 500 ).json( err );
+            }
+            return data.output.text;
+        } );
     }
+
 };
 
 module.exports = messageControl;
