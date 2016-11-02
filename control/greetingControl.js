@@ -1,4 +1,4 @@
-var mc = require("./messageControl");
+'use strict';
 var http = require('http');
 
 var greetingControl = {
@@ -6,15 +6,18 @@ var greetingControl = {
 
         var INI_GREETING_WORDS = "Hello";
 
-        // var greeting_res_text = mc.messageWithStringParam(INI_GREETING_WORDS);
-
         // REST API calling: get user info
         // Suppose the api request like {id:[001,002], dept:"672"}
         // Suppose the api response like {{id:001,name:Derek,industry:Insurance}, {id:002, name:Michael,industry:Finance}}
         // var user_id = req.body.user_id;
-        
-        var options = {
 
+        var options = {
+            host: 'testapiprovider.mybluemix.net',
+             // host: '127.0.0.1',
+            // port:6001, 
+            path: '/userInfo', 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json' }
         };
 
         var userInfoReq = http.request(options, function(userInfoRes) {

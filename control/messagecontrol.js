@@ -1,4 +1,6 @@
 
+'use strict';
+
 var watson = require( 'watson-developer-cloud' );  // watson sdk
 
 // Create the service wrapper
