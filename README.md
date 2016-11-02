@@ -112,6 +112,60 @@ Content-Type: `application/json`
 }
 ```
 
+## Greeting
+GET: `/api/greeting`
+
+Content-Type: `application/json`
+
+### HTTP Request body: 
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Note</th>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>object</td>
+        <td>required</td>
+        <td>List of userid seperated by comma ',' example:"user01,user02"</td>
+    </tr>
+    <tr>
+        <td>dept</td>
+        <td>object</td>
+        <td>required</td>
+        <td>The department code of the userId</td>
+    </tr>
+</table>
+
+#### `id` scheme: 
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>string[]</td>
+        <td>required</td>
+    </tr>
+</table>
+
+#### `dept` scheme: 
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Type</th>
+        <th>Required</th>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>string</td>
+        <td>required</td>
+    </tr>
+</table>
 ## Graphic
 GET: `/api/graphic`
 
