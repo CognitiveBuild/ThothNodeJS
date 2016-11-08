@@ -115,15 +115,15 @@ Content-Type: `application/json`
 ## Sample of HTTP response body: 
 ```JSON
 {
-  "input": {"text": “sample”},
+  "input": {"text": "sample"},
    "output":    {
       "log_messages": [],
-      "text": “This is a sample”,
+      "text": "This is a sample",
       "api": "getSample()",
-      "synthesizableText": “This is the synthesizableText for the sample.”,
+      "synthesizableText": "This is the synthesizableText for the sample.",
       "specialContent": {"data": [      {
-         "Name": “ABC”,
-         "Info": “This is ABC”,
+         "Name": "ABC",
+         "Info": "This is ABC",
          "MimeList":          [
                         {
                "Type": "audio",
