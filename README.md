@@ -127,7 +127,7 @@ Content-Type: `application/json`
              "MimeList": [
                 {"Type": "audio","URL": "<URL>"},
                 {"Type": "vedio","URL": "<URL>"},
-                {"Type": "graphic","URL": <"URL>"}
+                {"Type": "graphic","URL": "<URL>"}
              ]}
         ]}
    }
