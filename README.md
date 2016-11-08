@@ -112,33 +112,26 @@ Content-Type: `application/json`
 }
 ```
 
-## Sample of HTTP response body: 
+## Sample of some part of HTTP response body: 
 ```JSON
 {
   "input": {"text": "sample"},
-   "output":    {
+   "output":{
       "log_messages": [],
       "text": "This is a sample",
       "api": "getSample()",
       "synthesizableText": "This is the synthesizableText for the sample.",
-      "specialContent": {"data": [      {
-         "Name": "ABC",
-         "Info": "This is ABC",
-         "MimeList":          [
-                        {
-               "Type": "audio",
-               "URL": <URL>            },
-                        {
-               "Type": "vedio",
-               "URL": <URL>
-            },
-                        {
-               "Type": "graphic",
-               "URL": <URL>
-            }
-         ]
-      }]}
-   }}
+      "specialContent": {"data": [
+            {"Name": "ABC",
+             "Info": "This is ABC",
+             "MimeList": [
+                {"Type": "audio","URL": "<URL>"},
+                {"Type": "vedio","URL": "<URL>"},
+                {"Type": "graphic","URL": <"URL>"}
+             ]}
+        ]}
+   }
+}
 ```
 
 ## Greeting
