@@ -34,12 +34,17 @@ function updateMessage(input, response) {
             var specialContent ={};
             specialContent.data=[
                 {
-                    'Name':'',
-                    'Info':'',
+                    'Name':'SMBC',
+                    'Info':'SMBC is a bank',
                     'MimeList':[
-                        {'Type':'audio','URL':'http://www.runoob.com/try/demo_source/horse.mp3'},
-                        {'Type':'vedio','URL':'http://www.runoob.com/try/demo_source/movie.mp4'},
-                        {'Type':'graphic','URL':'http://www.smbc.co.jp/kojin/resources/images/index_logo03.jpg'}
+                        {'Type':'graphic','URL':'http://www.smbc.co.jp/kojin/resources/images/index_logo03.jpg'},
+                    ]
+                },
+                {
+                    'Name':'MUFG',
+                    'Info':'MUFG is a large bank',
+                    'MimeList':[
+                        {'Type':'video','URL':'http://www.smbc.co.jp/kojin/resources/images/index_logo03.jpg'},
                     ]
                 }
             ];
@@ -75,8 +80,8 @@ function updateMessage(input, response) {
 var messageControl = {
 
     message: function messageControl(req, res) {
-        var workspace = process.env.WORKSPACE_ID;
-        if ( !workspace || workspace === '<workspace-id>' ) {
+        var workspace = process.env.WORKSPACE_ID||'64cff2e7-dbe6-4067-88fb-c26385c91229';
+        if ( !workspace || workspace === '' ) {
             return res.json( {
                 'output': {
                     'text': 'The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' +
