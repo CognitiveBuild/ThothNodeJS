@@ -37,7 +37,6 @@ function updateMessage(input, response) {
                     'Name':'',
                     'Info':'',
                     'MimeList':[
-                        {'Type':'audio','URL':'http://www.runoob.com/try/demo_source/horse.mp3'},
                         {'Type':'vedio','URL':'http://www.runoob.com/try/demo_source/movie.mp4'},
                         {'Type':'graphic','URL':'http://www.smbc.co.jp/kojin/resources/images/index_logo03.jpg'}
                     ]
