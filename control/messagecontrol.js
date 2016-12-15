@@ -76,7 +76,7 @@ var messageControl = {
 
     message: function messageControl(req, res) {
         var workspace = process.env.WORKSPACE_ID;
-        if ( !workspace || workspace === '<workspace-id>' ) {
+        if ( !workspace || workspace === '64cff2e7-dbe6-4067-88fb-c26385c91229' ) {
             return res.json( {
                 'output': {
                     'text': 'The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' +
