@@ -34,17 +34,12 @@ function updateMessage(input, response) {
             var specialContent ={};
             specialContent.data=[
                 {
-                    'Name':'SMBC',
-                    'Info':'SMBC is a bank',
+                    'Name':'',
+                    'Info':'',
                     'MimeList':[
-                        {'Type':'graphic','URL':'http://www.smbc.co.jp/kojin/resources/images/index_logo03.jpg'},
-                    ]
-                },
-                {
-                    'Name':'MUFG',
-                    'Info':'MUFG is a large bank',
-                    'MimeList':[
-                        {'Type':'video','URL':'http://www.smbc.co.jp/kojin/resources/images/index_logo03.jpg'},
+                        {'Type':'audio','URL':'http://www.runoob.com/try/demo_source/horse.mp3'},
+                        {'Type':'vedio','URL':'http://www.runoob.com/try/demo_source/movie.mp4'},
+                        {'Type':'graphic','URL':'http://www.smbc.co.jp/kojin/resources/images/index_logo03.jpg'}
                     ]
                 }
             ];
