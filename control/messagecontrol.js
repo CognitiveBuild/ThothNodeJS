@@ -67,13 +67,18 @@ function updateMessage(input, response) {
     //     // If the logs db is set, then we want to record all input and responses
     //     id = uuid.v4();
     //     logs.insert( {'_id': id, 'request': input, 'response': response, 'time': new Date()});
-    // }
+    // } 
     return response;
 }
 //
 var messageControl = {
 
     message: function messageControl(req, res) {
+
+        for(var i=0; i<process.env.length;i++){
+            console.log("**** process env " + i + ":" + process.env[i]);
+        }
+
         var workspace = process.env.WORKSPACE_ID||'64cff2e7-dbe6-4067-88fb-c26385c91229';
         if ( !workspace || workspace === '' ) {
             return res.json( {
