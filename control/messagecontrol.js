@@ -21,6 +21,11 @@ var conversation = watson.conversation( {
 function updateMessage(input, response) {
     var responseText = null;
     var id = null;
+
+    if ( !response.log ) {
+        response.log = input.log;
+    }
+    
     if ( !response.output ) {
         response.output = {};
     } else {
