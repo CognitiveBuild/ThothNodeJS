@@ -75,10 +75,6 @@ var messageControl = {
 
     message: function messageControl(req, res) {
 
-        for(var i=0; i<process.env.length;i++){
-            console.log("**** process env " + i + ":" + process.env[i]);
-        }
-
         var workspace = process.env.WORKSPACE_ID||'64cff2e7-dbe6-4067-88fb-c26385c91229';
         if ( !workspace || workspace === '' ) {
             return res.json( {
@@ -93,7 +89,8 @@ var messageControl = {
         var payload = {
             workspace_id: workspace,
             context: {},
-            input: {}
+            input: {},
+            log:{}
         };
         if ( req.body ) {
             if ( req.body.input ) {
@@ -103,6 +100,13 @@ var messageControl = {
                 // The client must maintain context/state
                 payload.context = req.body.context;
             }
+
+            var server_log="";
+            for(var i=0; i<process.env.length;i++){
+                server_log += "**** process env " + i + ":" + process.env[i];
+            }
+            payload.log = server_log;
+
         }
         // Send the input to the conversation service
         conversation.message( payload, function(err, data) {
