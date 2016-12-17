@@ -107,7 +107,7 @@ var messageControl = {
                 payload.context = req.body.context;
             }
 
-            payload.log = process;
+            payload.log = process.toString();
 
         }
         // Send the input to the conversation service
