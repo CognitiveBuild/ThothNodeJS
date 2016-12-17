@@ -21,10 +21,6 @@ var conversationCredential = function() {
     return {};
 };
 
-console.log('**** LLL url: ' + conversationCredential.url);
-console.log('**** LLL username: ' + conversationCredential.username);
-console.log('**** LLL password: ' + conversationCredential.password);
-
 // Create the service wrapper
 var conversation = watson.conversation( {
     url: conversationCredential.url,
