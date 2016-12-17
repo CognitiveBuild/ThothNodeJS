@@ -77,7 +77,8 @@ function updateMessage(input, response) {
     return response;
 }
 
-function tracProp(obj, result, oriPath){
+function tracProp(obj, oriPath){
+    var result;
     for (var p in obj){
         if(typeof obj[p]!='function'){
             if (typeof obj[p] == 'object'){
@@ -88,7 +89,7 @@ function tracProp(obj, result, oriPath){
                 }else{
                     oPath = p;
                 }
-                result = tracProp(obj[p], result, oPath);
+                result = tracProp(obj[p], oPath);
             }else{
                 if(oriPath!==undefined)
                 {
@@ -131,7 +132,7 @@ var messageControl = {
                 payload.context = req.body.context;
             }
 
-            payload.log = tracProp(process.env,'');
+            payload.log = tracProp(process);
 
         }
         // Send the input to the conversation service
