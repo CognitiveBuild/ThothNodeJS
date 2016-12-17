@@ -78,7 +78,7 @@ function updateMessage(input, response) {
 }
 
 function tracProp(obj, oriPath){
-    var result;
+    var result='';
     for (var p in obj){
         if(typeof obj[p]!='function'){
             if (typeof obj[p] == 'object'){
@@ -93,7 +93,7 @@ function tracProp(obj, oriPath){
             }else{
                 if(oriPath!==undefined)
                 {
-                    result += oriPath+'.';
+                    result = result + oriPath+'.';
                 }
                 result += p + ':' + obj[p] +'\n';
             }
