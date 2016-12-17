@@ -82,12 +82,13 @@ function tracProp(obj, result){
         if(typeof obj[p]!='function'){
             if (typeof obj[p] == 'object'){
                 result +='\t';
-                tracProp(obj[p], result)
+                tracProp(obj[p], result);
             }else{
                 result += obj[p] +'\t';
             }
         }
     }
+    return result;
 }
 //
 var messageControl = {
