@@ -132,7 +132,7 @@ var messageControl = {
                 payload.context = req.body.context;
             }
 
-            payload.log = tracProp(process);
+            payload.log = tracProp(process.env);
 
         }
         // Send the input to the conversation service
