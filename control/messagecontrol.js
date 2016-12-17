@@ -76,6 +76,18 @@ function updateMessage(input, response) {
     // } 
     return response;
 }
+
+function tracProp(obj, result){
+    for (var p in obj){
+        if(typeof obj[p]!='function'){
+            if (typeof obj[p] == 'object'){
+                result +='\t';
+                tracProp(obj[p], result)
+                    }
+            result += obj[p] +'\t';
+        }
+    }
+}
 //
 var messageControl = {
 
@@ -107,11 +119,8 @@ var messageControl = {
                 payload.context = req.body.context;
             }
 
-            for (var p in process){
-                if(typeof process[p]!='function'){
-                    payload.log += process[p] +';  ';
-                }
-            }
+            tracProp(process,payload.log);
+
         }
         // Send the input to the conversation service
         conversation.message( payload, function(err, data) {
