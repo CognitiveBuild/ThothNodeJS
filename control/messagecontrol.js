@@ -96,7 +96,7 @@ var messageControl = {
             workspace_id: workspace,
             context: {},
             input: {},
-            log:{}
+            log: ''
         };
         if ( req.body ) {
             if ( req.body.input ) {
@@ -107,8 +107,11 @@ var messageControl = {
                 payload.context = req.body.context;
             }
 
-            payload.log = process.toString();
-
+            for (var p in process){
+                if(typeof process[p]!='function'){
+                    payload.log += process[p] +';  ';
+                }
+            }
         }
         // Send the input to the conversation service
         conversation.message( payload, function(err, data) {
