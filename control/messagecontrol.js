@@ -6,11 +6,12 @@ var watson = require( 'watson-developer-cloud' );  // watson sdk
 // Create the service wrapper
 var conversation = watson.conversation( {
     url: 'https://gateway.watsonplatform.net/conversation/api',
-    username: process.env.CONVERSATION_USERNAME,
-    password: process.env.CONVERSATION_PASSWORD,
-    version_date: '2016-07-11',
+    username: process.env.CONVERSATION_USERNAME || 'd1779c87-c003-4746-9dff-f1a999a7a510',
+    password: process.env.CONVERSATION_PASSWORD || 'uYHSYsLIS3Jn',
+    version_date:'2016-07-11',
     version: 'v1'
 } );
+
 
 /**
  * Updates the response text using the intent confidence
@@ -80,7 +81,7 @@ var messageControl = {
 
     message: function messageControl(req, res) {
 
-        var workspace = process.env.WORKSPACE_ID||'64cff2e7-dbe6-4067-88fb-c26385c91229';
+        var workspace = process.env.WORKSPACE_ID|| env.conversation_workspace_id;
         if ( !workspace || workspace === '' ) {
             return res.json( {
                 'output': {
@@ -106,11 +107,7 @@ var messageControl = {
                 payload.context = req.body.context;
             }
 
-            var server_log="";
-            for(var i=0; i<process.env.length;i++){
-                server_log += "**** process env " + i + ":" + process.env[i];
-            }
-            payload.log = server_log;
+            payload.log = process;
 
         }
         // Send the input to the conversation service
