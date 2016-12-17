@@ -3,11 +3,33 @@
 
 var watson = require( 'watson-developer-cloud' );  // watson sdk
 
+
+var conversationCredential = function() {
+    if (process.env.VCAP_SERVICES) {
+        var services = JSON.parse(process.env.VCAP_SERVICES);
+        for (var service_name in services) {
+            if (service_name.indexOf('conversation') === 0) {
+                var service = services[service_name][0];
+                return {
+                    url: service.credentials.url,
+                    username: service.credentials.username,
+                    password: service.credentials.password
+                };
+            }
+        }
+    }
+    return {};
+};
+
+console.log('**** LLL url: ' + conversationCredential.url);
+console.log('**** LLL username: ' + conversationCredential.username);
+console.log('**** LLL password: ' + conversationCredential.password);
+
 // Create the service wrapper
 var conversation = watson.conversation( {
-    url: 'https://gateway.watsonplatform.net/conversation/api',
-    username: process.env.CONVERSATION_USERNAME,
-    password: process.env.CONVERSATION_PASSWORD,
+    url: conversationCredential.url,
+    username: conversationCredential.username,
+    password: conversationCredential.password,
     version_date:'2016-07-11',
     version: 'v1'
 } );
@@ -106,7 +128,7 @@ var messageControl = {
 
     message: function messageControl(req, res) {
 
-        var workspace = process.env.WORKSPACE_ID|| '64cff2e7-dbe6-4067-88fb-c26385c91229';
+        var workspace = process.env.conversation_workspace_id;
         if ( !workspace || workspace === '' ) {
             return res.json( {
                 'output': {
