@@ -81,7 +81,7 @@ var messageControl = {
 
     message: function messageControl(req, res) {
 
-        var workspace = process.env.WORKSPACE_ID|| env.conversation_workspace_id;
+        var workspace = process.env.WORKSPACE_ID|| '64cff2e7-dbe6-4067-88fb-c26385c91229';
         if ( !workspace || workspace === '' ) {
             return res.json( {
                 'output': {
