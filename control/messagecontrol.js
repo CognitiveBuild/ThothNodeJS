@@ -6,8 +6,8 @@ var watson = require( 'watson-developer-cloud' );  // watson sdk
 // Create the service wrapper
 var conversation = watson.conversation( {
     url: 'https://gateway.watsonplatform.net/conversation/api',
-    username: process.env.CONVERSATION_USERNAME || 'd1779c87-c003-4746-9dff-f1a999a7a510',
-    password: process.env.CONVERSATION_PASSWORD || 'uYHSYsLIS3Jn',
+    username: process.env.CONVERSATION_USERNAME,
+    password: process.env.CONVERSATION_PASSWORD,
     version_date:'2016-07-11',
     version: 'v1'
 } );
@@ -77,14 +77,24 @@ function updateMessage(input, response) {
     return response;
 }
 
-function tracProp(obj, result){
+function tracProp(obj, result, oriPath){
     for (var p in obj){
         if(typeof obj[p]!='function'){
             if (typeof obj[p] == 'object'){
-                result +='\t';
-                tracProp(obj[p], result);
+                var oPath;
+                if(oriPath!==undefined)
+                {
+                    oPath = oriPath + '.'+p;
+                }else{
+                    oPath = p;
+                }
+                result = tracProp(obj[p], result, oPath);
             }else{
-                result += obj[p] +'\t';
+                if(oriPath!==undefined)
+                {
+                    result += oriPath+'.';
+                }
+                result += p + ':' + obj[p] +'\n';
             }
         }
     }
@@ -121,7 +131,7 @@ var messageControl = {
                 payload.context = req.body.context;
             }
 
-            tracProp(process,payload.log);
+            payload.log = tracProp(process,'');
 
         }
         // Send the input to the conversation service
