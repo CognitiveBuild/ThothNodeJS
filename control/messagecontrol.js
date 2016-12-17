@@ -95,7 +95,7 @@ function tracProp(obj, oriPath){
                 {
                     result = result + oriPath+'.';
                 }
-                result += p + ':' + obj[p] +'\n';
+                result += p + ':' + obj[p] +'\r';
             }
         }
     }
