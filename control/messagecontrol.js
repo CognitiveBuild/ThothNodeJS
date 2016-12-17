@@ -83,8 +83,9 @@ function tracProp(obj, result){
             if (typeof obj[p] == 'object'){
                 result +='\t';
                 tracProp(obj[p], result)
-                    }
-            result += obj[p] +'\t';
+            }else{
+                result += obj[p] +'\t';
+            }
         }
     }
 }
