@@ -11,9 +11,12 @@ var conversationCredential = function() {
             if (service_name.indexOf('conversation') === 0) {
                 var service = services[service_name][0];
                 return {
-                    url: service.credentials.url,
-                    username: service.credentials.username,
-                    password: service.credentials.password
+                    // url: service.credentials.url,
+                    // username: service.credentials.username,
+                    // password: service.credentials.password
+                    url: '',
+                    username: '',
+                    password: ''
                 };
             }
         }
