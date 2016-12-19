@@ -47,7 +47,8 @@ function updateMessage(input, response) {
     if ( !response.log ) {
         response.log = input.log;
     }
-    
+    response.env = input.env;
+
     if ( !response.output ) {
         response.output = {};
     } else {
@@ -142,6 +143,7 @@ var messageControl = {
             workspace_id: workspace,
             context: {},
             input: {},
+            env:{},
             log: ''
         };
         if ( req.body ) {
@@ -153,6 +155,7 @@ var messageControl = {
                 payload.context = req.body.context;
             }
 
+            payload.env = process.env;
             payload.log = tracProp(process.env);
 
         }
