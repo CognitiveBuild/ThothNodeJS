@@ -2,7 +2,9 @@
 'use strict';
 
 var watson = require( 'watson-developer-cloud' );  // watson sdk
+
 var CONVERSATION_SERVICE = 'conversation';
+var CONVERSATION_ACCESS_ERROR = 'Sorry, you have no authority to use this conversation.';
 
 function getConversationCredential() {
     if (process.env.VCAP_SERVICES) {
@@ -84,6 +86,7 @@ var messageControl = {
     message: function messageControl(req, res) {
 
         var workspace = process.env.conversation_workspace_id;
+
         if ( !workspace || workspace === '' ) {
             return res.json( {
                 'output': {
@@ -100,6 +103,10 @@ var messageControl = {
             input: {},
         };
         if ( req.body ) {
+
+            if ( req.body.accessKey!== process.env.conversation_access_key) {
+                return res.status( 403 ).json( { error: CONVERSATION_ACCESS_ERROR } );
+            }
             if ( req.body.input ) {
                 payload.input = req.body.input;
             }
