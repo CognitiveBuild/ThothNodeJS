@@ -2,21 +2,18 @@
 'use strict';
 
 var watson = require( 'watson-developer-cloud' );  // watson sdk
+var CONVERSATION_SERVICE = 'conversation';
 
-
-var conversationCredential = function() {
+function getConversationCredential() {
     if (process.env.VCAP_SERVICES) {
         var services = JSON.parse(process.env.VCAP_SERVICES);
         for (var service_name in services) {
-            if (service_name.indexOf('conversation') === 0) {
+            if (service_name.indexOf(CONVERSATION_SERVICE) === 0) {
                 var service = services[service_name][0];
                 return {
-                    // url: service.credentials.url,
-                    // username: service.credentials.username,
-                    // password: service.credentials.password
-                    url: '',
-                    username: '',
-                    password: ''
+                    url: service.credentials.url,
+                    username: service.credentials.username,
+                    password: service.credentials.password
                 };
             }
         }
@@ -25,10 +22,12 @@ var conversationCredential = function() {
 };
 
 // Create the service wrapper
+var credential = getConversationCredential();
+
 var conversation = watson.conversation( {
-    url: conversationCredential.url,
-    username: conversationCredential.username,
-    password: conversationCredential.password,
+    url: credential.url,
+    username: credential.username,
+    password: credential.password,
     version_date:'2016-07-11',
     version: 'v1'
 } );
@@ -99,30 +98,6 @@ function updateMessage(input, response) {
     return response;
 }
 
-function tracProp(obj, oriPath){
-    var result='';
-    for (var p in obj){
-        if(typeof obj[p]!='function'){
-            if (typeof obj[p] == 'object'){
-                var oPath;
-                if(oriPath!==undefined)
-                {
-                    oPath = oriPath + '.'+p;
-                }else{
-                    oPath = p;
-                }
-                result = tracProp(obj[p], oPath);
-            }else{
-                if(oriPath!==undefined)
-                {
-                    result = result + oriPath+'.';
-                }
-                result += p + ':' + obj[p] +',          ';
-            }
-        }
-    }
-    return result;
-}
 //
 var messageControl = {
 
