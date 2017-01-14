@@ -1,12 +1,14 @@
 
 'use strict';
 
+const CONVERSATION_SERVICE = 'conversation';
+const CONVERSATION_VERSION_DATE = '2016-07-11';
+const CONVERSATION_VERSION = 'v1';
+
 var watson = require( 'watson-developer-cloud' );  // watson sdk
+var http = require('http');
 
-var CONVERSATION_SERVICE = 'conversation';
-var CONVERSATION_ACCESS_ERROR = 'Sorry, you have no authority to use this conversation.';
-
-function getConversationCredential() {
+var credential = function getConversationCredential() {
     if (process.env.VCAP_SERVICES) {
         var services = JSON.parse(process.env.VCAP_SERVICES);
         for (var service_name in services) {
@@ -15,7 +17,9 @@ function getConversationCredential() {
                 return {
                     url: service.credentials.url,
                     username: service.credentials.username,
-                    password: service.credentials.password
+                    password: service.credentials.password,
+                    version_date:CONVERSATION_VERSION_DATE,
+                    version: CONVERSATION_VERSION
                 };
             }
         }
@@ -24,61 +28,7 @@ function getConversationCredential() {
 };
 
 // Create the service wrapper
-var credential = getConversationCredential();
-
-var conversation = watson.conversation( {
-    url: credential.url,
-    username: credential.username,
-    password: credential.password,
-    version_date:'2016-07-11',
-    version: 'v1'
-} );
-
-
-/**
- * Updates the response text using the intent confidence
- * @param  {Object} input The request to the Conversation service
- * @param  {Object} response The response from the Conversation service
- * @return {Object}          The response with the updated message
- */
-function updateMessage(input, response) {
-    var responseText = null;
-    var id = null;
-
-    if ( !response.output ) {
-        response.output = {};
-    } else {
-        if ( response.output.api ) {
-            //TODO call REST API, Dummy source first
-            var specialContent ={};
-            specialContent.data=[
-                {
-                    'Name':'',
-                    'Info':'',
-                    'MimeList':[
-                        {'Type':'vedio','URL':'http://www.runoob.com/try/demo_source/movie.mp4'},
-                        {'Type':'graphic','URL':'http://www.smbc.co.jp/kojin/resources/images/index_logo03.jpg'}
-                    ]
-                }
-            ];
-            response.output.specialContent = specialContent;
-        }
-        return response;
-    }
-    if ( response.intents && response.intents[0] ) {
-        var intent = response.intents[0];
-        if ( intent.confidence >= 0.75 ) {
-            responseText = 'I understood your intent was ' + intent.intent;
-        } else if ( intent.confidence >= 0.5 ) {
-            responseText = 'I think your intent was ' + intent.intent;
-        } else {
-            responseText = 'I did not understand your intent';
-        }
-    }
-    response.output.text = responseText;
-
-    return response;
-}
+var conversation = watson.conversation(credential);
 
 //
 var messageControl = {
@@ -101,6 +51,7 @@ var messageControl = {
             workspace_id: workspace,
             context: {},
             input: {},
+            api_param:{}
         };
         if ( req.body ) {
 
@@ -114,16 +65,102 @@ var messageControl = {
                 // The client must maintain context/state
                 payload.context = req.body.context;
             }
+            if ( req.body.api_param ) {
+                payload.api_param = req.body.api_param;
+            }
         }
         // Send the input to the conversation service
-        conversation.message( payload, function(err, data) {
+        conversation.message( payload, function(err, response) {
             if ( err ) {
                 return res.status( err.code || 500 ).json( err );
             }
-            return res.json( updateMessage( payload, data ) );
+            return res.json( updateMessage( payload, response ) );
         } );
     }
 
 };
+
+/**
+ * Updates the response text using the intent confidence
+ * @param  {Object} input The request to the Conversation service
+ * @param  {Object} response The response from the Conversation service
+ * @return {Object}          The response with the updated message
+ */
+function updateMessage(payload, response) {
+    var responseText = null;
+    var id = null;
+
+    if ( !response.output ) {
+        response.output = {};
+    } else {
+        if ( response.intents && response.intents[0] ) {
+            var intent = response.intents[0];
+            if ( intent.confidence >= 0.75 ) {
+                responseText = 'I understood your intent was ' + intent.intent;
+            } else if ( intent.confidence >= 0.5 ) {
+                responseText = 'I think your intent was ' + intent.intent;
+            } else {
+                responseText = 'I did not understand your intent';
+            }
+        }
+        response.output.text = responseText;
+
+        // if ( response.output.api ) {
+        //
+        //     var postData = querystring.stringify(payload.api_param);
+        //
+        //     //set API provider host info
+        //     // var options = {
+        //     //     host: response.output.api_host,
+        //     //     path: response.output.api_path,
+        //     //     method: 'POST',
+        //     //     headers: {
+        //     //         'Content-Type': 'application/x-www-form-urlencoded',
+        //     //         'Content-Length': Buffer.byteLength(postData)
+        //     //     }
+        //     // };
+        //
+        //
+        //     var options = {
+        //         host: response.output.api_host,
+        //         path: response.output.api_path,
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/x-www-form-urlencoded',
+        //             'Content-Length': Buffer.byteLength(postData)
+        //         }
+        //     };
+        //
+        //     var req = http.request(options, function(res) {
+        //         res.on('data', function (chunk) {
+        //             console.log('BODY: ${chunk}');
+        //         });
+        //
+        //     });
+        //
+        //     req.on('error', function(e){
+        //         console.log('problem with request: ${e.message}');
+        //         return response.status( err.code || 500 ).json( e );
+        //     })
+        //
+        //     // write data to request body
+        //     req.write(postData);
+        //     req.end();
+        //
+        //     //TODO call REST API, Dummy source first
+        //     var specialContent ={};
+        //     specialContent.data=[
+        //         {
+        //             'Name':'SMBC',
+        //             'Info':'SMBC is a famous japan bank',
+        //             'MimeType':'vedio','URL':'http://www.runoob.com/try/demo_source/movie.mp4'
+        //         }
+        //     ];
+        //     response.output.specialContent = specialContent;
+        // }
+    }
+
+    return response;
+}
 
 module.exports = messageControl;
