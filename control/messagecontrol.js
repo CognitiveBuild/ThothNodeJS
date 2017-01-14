@@ -24,7 +24,14 @@ var credential = function getConversationCredential() {
             }
         }
     }
-    return {};
+    console.log("The runtime app has not bound conversation service yet!");
+    return {
+        url: null,
+        username: null,
+        password: null,
+        version_date:null,
+        version: null
+    };
 };
 
 // Create the service wrapper
