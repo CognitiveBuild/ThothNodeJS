@@ -29,8 +29,8 @@ var credential = function getConversationCredential() {
         url: null,
         username: null,
         password: null,
-        version_date:null,
-        version: null
+        version_date: CONVERSATION_VERSION_DATE,
+        version: CONVERSATION_VERSION
     };
 };
 
