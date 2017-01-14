@@ -8,7 +8,7 @@ const CONVERSATION_VERSION = 'v1';
 var watson = require( 'watson-developer-cloud' );  // watson sdk
 var http = require('http');
 
-var credential = function getConversationCredential() {
+function getConversationCredential() {
     if (process.env.VCAP_SERVICES) {
         var services = JSON.parse(process.env.VCAP_SERVICES);
         for (var service_name in services) {
@@ -26,13 +26,12 @@ var credential = function getConversationCredential() {
     }
     console.log("The runtime app has not bound conversation service yet!");
     return {
-        url: null,
-        username: null,
-        password: null,
         version_date: CONVERSATION_VERSION_DATE,
         version: CONVERSATION_VERSION
     };
 };
+
+var credential = getConversationCredential();
 
 // Create the service wrapper
 var conversation = watson.conversation(credential);
