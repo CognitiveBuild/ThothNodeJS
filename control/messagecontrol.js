@@ -81,7 +81,9 @@ var messageControl = {
             if ( err ) {
                 return res.status( err.code || 500 ).json( err );
             }
-            return res.json( updateMessage( payload, response ) );
+            var message = updateMessage( payload, response );
+            console("!!!!!!!!!!Before send back...")
+            return res.json(message);
         } );
     }
 
@@ -118,7 +120,13 @@ function updateMessage(payload, response) {
 
             request(response.output.api, function (error, apiResponse, body) {
                 if (!error && apiResponse.statusCode == 200) {
+
+                    console.log("*********** apiResponse:" + apiResponse);
+                    console.log("*********** body:" + body);
+
                     response.output.specialContent = body;
+                    console.log("*********** response:" + response);
+                    
                     return response;
                 } else{
                     console.log("Got error on calling api: " + response.output.api);
