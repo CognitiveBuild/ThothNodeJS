@@ -98,7 +98,7 @@ var messageControl = {
  * @return {Object}          The response with the updated message
  */
 function updateMessage(payload, res, response) {
-    var responseText = null;
+    var intentInfo = null;
 
     if ( !response.output ) {
         response.output = {};
@@ -106,14 +106,14 @@ function updateMessage(payload, res, response) {
         if ( response.intents && response.intents[0] ) {
             var intent = response.intents[0];
             if ( intent.confidence >= 0.75 ) {
-                responseText = 'I understood your intent was ' + intent.intent;
+                intentInfo = 'I understood your intent was ' + intent.intent;
             } else if ( intent.confidence >= 0.5 ) {
-                responseText = 'I think your intent was ' + intent.intent;
+                intentInfo = 'I think your intent was ' + intent.intent;
             } else {
-                responseText = 'I did not understand your intent';
+                intentInfo = 'I did not understand your intent';
             }
         }
-        response.output.text = responseText;
+        response.output.intentInfo = intentInfo;
 
         if (!response.output.api) {
             return response;
