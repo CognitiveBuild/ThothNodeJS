@@ -81,7 +81,7 @@ var messageControl = {
             if ( err ) {
                 return res.status( err.code || 500 ).json( err );
             }
-            var message = updateMessage( payload, response );
+            var message = updateMessage( payload, res, response );
             console.log("!!!!!!!!!!Before send back...");
             if (!response.output.api) {
                 return res.json(message);
@@ -97,7 +97,7 @@ var messageControl = {
  * @param  {Object} response The response from the Conversation service
  * @return {Object}          The response with the updated message
  */
-function updateMessage(payload, response) {
+function updateMessage(payload, res, response) {
     var responseText = null;
     var id = null;
 
