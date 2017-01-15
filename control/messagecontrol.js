@@ -83,7 +83,9 @@ var messageControl = {
             }
             var message = updateMessage( payload, response );
             console.log("!!!!!!!!!!Before send back...");
-            return res.json(message);
+            if (!response.output.api) {
+                return res.json(message);
+            }
         } );
     }
 
@@ -127,10 +129,10 @@ function updateMessage(payload, response) {
                     response.output.specialContent = body;
                     console.log("*********** response:" + response);
                     
-                    return response;
                 } else{
                     console.log("Got error on calling api: " + response.output.api);
                 }
+                return response;
             });
 
 
