@@ -126,7 +126,7 @@ function updateMessage(payload, res, response) {
                     console.log("*********** apiResponse:" + apiResponse);
                     console.log("*********** body:" + body);
 
-                    response.output.specialContent = body;
+                    response.output.specialContent = JSON.parse(body);
                     console.log("*********** response:" + response);
                     
                 } else{
