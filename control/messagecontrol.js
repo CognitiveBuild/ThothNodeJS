@@ -120,7 +120,7 @@ function updateMessage(payload, res, response) {
         } else {
             request(response.output.api, function (error, apiResponse, body) {
                 if (!error && apiResponse.statusCode == 200) {
-                    response.output.specialContent = JSON.parse(body.specialContent);
+                    response.output.specialContent = JSON.parse(body).specialContent;
                 } else{
                     console.log("Got error on calling api: " + response.output.api);
                 }
