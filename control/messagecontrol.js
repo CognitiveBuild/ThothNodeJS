@@ -82,7 +82,7 @@ var messageControl = {
                 return res.status( err.code || 500 ).json( err );
             }
             var message = updateMessage( payload, response );
-            console("!!!!!!!!!!Before send back...")
+            console("!!!!!!!!!!Before send back...");
             return res.json(message);
         } );
     }
