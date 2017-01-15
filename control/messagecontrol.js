@@ -112,8 +112,9 @@ function updateMessage(payload, response) {
         response.output.text = responseText;
 
         if ( response.output.api ) {
-        
+            console.log('******** api calling:' + response.output.api);
             http.get(response.output.api,function (apiRes) {
+                console.log('******** api response:' + apiRes);
                 response.output.specialContent = apiRes;
             }).on('error', function(e) {
                 console.log("Got error: " + e.message);
