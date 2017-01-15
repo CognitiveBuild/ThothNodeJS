@@ -111,11 +111,14 @@ function updateMessage(payload, response) {
         }
         response.output.text = responseText;
 
-        if ( response.output.api ) {
+        if (!response.output.api) {
+            return response;
+        } else {
             console.log('******** api calling:' + response.output.api);
-            http.get(response.output.api,function (apiRes) {
+            http.get(response.output.api, function(apiRes){
                 console.log('******** api response:' + apiRes);
                 response.output.specialContent = apiRes;
+                return response;
             }).on('error', function(e) {
                 console.log("Got error: " + e.message);
             });
@@ -129,9 +132,8 @@ function updateMessage(payload, response) {
             //         'Content-Length': Buffer.byteLength(postData)
             //     }
             // };
-        
 
-        
+
             // //TODO call REST API, Dummy source first
             //
             // specialContent.data=[
@@ -145,7 +147,7 @@ function updateMessage(payload, response) {
         }
     }
 
-    return response;
+
 }
 
 module.exports = messageControl;
