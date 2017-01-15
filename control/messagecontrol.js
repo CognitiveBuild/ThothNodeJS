@@ -7,6 +7,7 @@ const CONVERSATION_VERSION = 'v1';
 
 var watson = require( 'watson-developer-cloud' );  // watson sdk
 var http = require('http');
+var request = require('request');
 
 function getConversationCredential() {
     if (process.env.VCAP_SERVICES) {
@@ -114,14 +115,27 @@ function updateMessage(payload, response) {
         if (!response.output.api) {
             return response;
         } else {
-            console.log('******** api calling:' + response.output.api);
-            http.get(response.output.api, function(apiRes){
-                console.log('******** api response:' + JSON.stringify(apiRes));
-                response.output.specialContent = "********";
-                return response;
-            }).on('error', function(e) {
-                console.log("Got error: " + e.message);
+
+            request(response.output.api, function (error, apiResponse, body) {
+                if (!error && response.output.api.statusCode == 200) {
+                    response.output.specialContent = body;
+                    return response;
+                } else{
+                    console.log("Got error on calling api: " + response.output.api);
+                }
             });
+
+
+            // console.log('******** api calling:' + response.output.api);
+            // http.get(response.output.api, function(apiRes){
+            //     console.log('******** api response:' + JSON.stringify(apiRes));
+            //     response.output.specialContent = "********";
+            //     return response;
+            // }).on('error', function(e) {
+            //     console.log("Got error: " + e.message);
+            // });
+
+
             //set API provider host info
             // var options = {
             //     host: response.output.api_host,
