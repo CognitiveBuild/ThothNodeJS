@@ -99,7 +99,6 @@ var messageControl = {
  */
 function updateMessage(payload, res, response) {
     var responseText = null;
-    var id = null;
 
     if ( !response.output ) {
         response.output = {};
@@ -119,59 +118,16 @@ function updateMessage(payload, res, response) {
         if (!response.output.api) {
             return response;
         } else {
-
             request(response.output.api, function (error, apiResponse, body) {
                 if (!error && apiResponse.statusCode == 200) {
-
-                    console.log("*********** apiResponse:" + apiResponse);
-                    console.log("*********** body:" + body);
-
-                    response.output.specialContent = JSON.parse(body);
-                    console.log("*********** response:" + response);
-                    
+                    response.output.specialContent = JSON.parse(body.specialContent);
                 } else{
                     console.log("Got error on calling api: " + response.output.api);
                 }
                 return res.json(response);
             });
-
-
-            // console.log('******** api calling:' + response.output.api);
-            // http.get(response.output.api, function(apiRes){
-            //     console.log('******** api response:' + JSON.stringify(apiRes));
-            //     response.output.specialContent = "********";
-            //     return response;
-            // }).on('error', function(e) {
-            //     console.log("Got error: " + e.message);
-            // });
-
-
-            //set API provider host info
-            // var options = {
-            //     host: response.output.api_host,
-            //     path: response.output.api_path,
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/x-www-form-urlencoded',
-            //         'Content-Length': Buffer.byteLength(postData)
-            //     }
-            // };
-
-
-            // //TODO call REST API, Dummy source first
-            //
-            // specialContent.data=[
-            //     {
-            //         'Name':'SMBC',
-            //         'Info':'SMBC is a famous japan bank',
-            //         'MimeType':'vedio','URL':'http://www.runoob.com/try/demo_source/movie.mp4'
-            //     }
-            // ];
-
         }
     }
-
-
 }
 
 module.exports = messageControl;
