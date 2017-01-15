@@ -132,7 +132,7 @@ function updateMessage(payload, response) {
                 } else{
                     console.log("Got error on calling api: " + response.output.api);
                 }
-                return response;
+                return res.json(message);
             });
 
 
