@@ -111,59 +111,37 @@ function updateMessage(payload, response) {
         }
         response.output.text = responseText;
 
-        // if ( response.output.api ) {
-        //
-        //     var postData = querystring.stringify(payload.api_param);
-        //
-        //     //set API provider host info
-        //     // var options = {
-        //     //     host: response.output.api_host,
-        //     //     path: response.output.api_path,
-        //     //     method: 'POST',
-        //     //     headers: {
-        //     //         'Content-Type': 'application/x-www-form-urlencoded',
-        //     //         'Content-Length': Buffer.byteLength(postData)
-        //     //     }
-        //     // };
-        //
-        //
-        //     var options = {
-        //         host: response.output.api_host,
-        //         path: response.output.api_path,
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/x-www-form-urlencoded',
-        //             'Content-Length': Buffer.byteLength(postData)
-        //         }
-        //     };
-        //
-        //     var req = http.request(options, function(res) {
-        //         res.on('data', function (chunk) {
-        //             console.log('BODY: ${chunk}');
-        //         });
-        //
-        //     });
-        //
-        //     req.on('error', function(e){
-        //         console.log('problem with request: ${e.message}');
-        //         return response.status( err.code || 500 ).json( e );
-        //     })
-        //
-        //     // write data to request body
-        //     req.write(postData);
-        //     req.end();
-        //
-        //     //TODO call REST API, Dummy source first
-        //     var specialContent ={};
-        //     specialContent.data=[
-        //         {
-        //             'Name':'SMBC',
-        //             'Info':'SMBC is a famous japan bank',
-        //             'MimeType':'vedio','URL':'http://www.runoob.com/try/demo_source/movie.mp4'
-        //         }
-        //     ];
-        //     response.output.specialContent = specialContent;
-        // }
+        if ( response.output.api ) {
+        
+            http.get(response.output.api,function (apiRes) {
+                response.output.specialContent = apiRes;
+            }).on('error', function(e) {
+                console.log("Got error: " + e.message);
+            });
+            //set API provider host info
+            // var options = {
+            //     host: response.output.api_host,
+            //     path: response.output.api_path,
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/x-www-form-urlencoded',
+            //         'Content-Length': Buffer.byteLength(postData)
+            //     }
+            // };
+        
+
+        
+            // //TODO call REST API, Dummy source first
+            //
+            // specialContent.data=[
+            //     {
+            //         'Name':'SMBC',
+            //         'Info':'SMBC is a famous japan bank',
+            //         'MimeType':'vedio','URL':'http://www.runoob.com/try/demo_source/movie.mp4'
+            //     }
+            // ];
+
+        }
     }
 
     return response;
