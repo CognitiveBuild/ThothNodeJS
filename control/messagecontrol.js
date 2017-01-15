@@ -117,7 +117,7 @@ function updateMessage(payload, response) {
         } else {
 
             request(response.output.api, function (error, apiResponse, body) {
-                if (!error && response.output.api.statusCode == 200) {
+                if (!error && apiResponse.statusCode == 200) {
                     response.output.specialContent = body;
                     return response;
                 } else{
